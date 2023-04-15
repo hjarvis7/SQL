@@ -1,0 +1,48 @@
+/** Baby Items:
+bassinet
+crib
+onsies
+diaper cream
+baby lotion
+diapers
+wipes
+socks
+hats
+carseat
+toys
+blankets
+sound machine
+pacifier
+bottles
+**/
+
+CREATE TABLE store (id INTEGER PRIMARY KEY, name TEXT, age INTEGER, price INTEGER, necessity TEXT, inventory INTEGER, aisle INTEGER);
+
+INSERT INTO store VALUES (1, "bassinet", 0, 75, "no", 5, 2);
+INSERT INTO store VALUES (2, "crib", 2, 100, "no", 4, 2);
+INSERT INTO store VALUES (3, "onsies", 0, 10, "yes", 12, 1);
+INSERT INTO store VALUES (4, "diaper cream", 0, 15, "yes", 10, 3);
+INSERT INTO store VALUES (5, "baby lotion", 0, 12, "yes", 8, 3);
+INSERT INTO store VALUES (6, "diapers", 0, 18, "yes", 100, 4);
+INSERT INTO store VALUES (7, "wipes", 0, 10, "yes", 60, 4);
+INSERT INTO store VALUES (8, "socks", 0, 5, "no", 10, 1);
+INSERT INTO store VALUES (9, "hats", 0,  5, "no", 10, 1);
+INSERT INTO store VALUES (10, "carseat", 0, 300, "yes", 25, 2);
+INSERT INTO store VALUES (11, "toys", 3, 5, "no", 20, 5);
+INSERT INTO store VALUES (12, "blankets", 6, 15, "no", 10, 1);
+INSERT INTO store VALUES (13, "sound machine", 0, 60, "yes", 10, 2);
+INSERT INTO store VALUES (14, "pacifier", 0, 15, "no", 20, 3);
+INSERT INTO store VALUES (15, "bottles", 0, 20, "yes", 25, 3);
+SELECT * FROM store;
+
+SELECT name FROM store;
+
+SELECT MAX(price) FROM store;
+
+
+
+
+
+
+
+
