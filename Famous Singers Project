@@ -1,0 +1,123 @@
+CREATE TABLE singers (id INTEGER PRIMARY KEY AUTOINCREMENT,
+fullname TEXT,
+gender TEXT,
+home_country TEXT,
+age INTEGER);
+
+CREATE TABLE singers_music (id INTEGER PRIMARY KEY AUTOINCREMENT,
+singer_id INTEGER,
+genre TEXT);
+
+CREATE TABLE songs (id INTEGER PRIMARY KEY AUTOINCREMENT, artist_id INTEGER, title TEXT, album TEXT);
+
+INSERT INTO singers VALUES (1, "Harry Styles", "Male", "UK", 29);
+INSERT INTO singers VALUES (2, "Allen Stone", "Male", "USA", 36);
+INSERT INTO singers VALUES (3, "Billie Eillish", "Female", "USA", 21);
+INSERT INTO singers VALUES (4, "Bob Marley", "Male", "Jamaica", 36);
+INSERT INTO singers VALUES (5, "David Bowie", "Male", "UK", 69);
+INSERT INTO singers VALUES (6, "Elton John", "Male", "UK", 76);
+INSERT INTO singers VALUES (7, "Stevie Nicks", "Female", "USA", 74);
+INSERT INTO singers VALUES (8, "Post Malone", "Male", "USA", 27);
+INSERT INTO singers VALUES (9, "Adele", "Female", "UK", 34);
+INSERT INTO singers VALUES (10, "Whitney Houston", "Female", "USA", 48);
+INSERT INTO singers VALUES (11, "Carrie Underwood", "Female", "USA", 40);
+INSERT INTO singers VALUES (12, "Ariana Grande", "Female", "USA", 29);
+INSERT INTO singers VALUES (13, "Bruno Mars", "Male", "USA", 37);
+INSERT INTO singers VALUES (14, "Rihanna", "Female", "Barbados", 35);
+INSERT INTO singers VALUES (15, "Taylor Swift", "Female", "USA", 33);
+INSERT INTO singers VALUES (16, "Tom Petty", "Male", "USA", 67);
+
+INSERT INTO singers_music VALUES (1, 1, "Pop");
+INSERT INTO singers_music VALUES (2, 2, "R&B/Soul");
+INSERT INTO singers_music VALUES (3, 3, "Pop");
+INSERT INTO singers_music VALUES (4, 4, "Reggae");
+INSERT INTO singers_music VALUES (5, 5, "Classic Rock");
+INSERT INTO singers_music VALUES (6, 6, "Pop");
+INSERT INTO singers_music VALUES (7, 7, "Classic Rock");
+INSERT INTO singers_music VALUES (8, 8, "Hip-Hop/Rap");
+INSERT INTO singers_music VALUES (9, 9, "Pop Soul");
+INSERT INTO singers_music VALUES (10, 10, "Pop");
+INSERT INTO singers_music VALUES (11, 11, "Country");
+INSERT INTO singers_music VALUES (12, 12, "Pop");
+INSERT INTO singers_music VALUES (13, 13, "Pop");
+INSERT INTO singers_music VALUES (14, 14, "R&B/Soul");
+INSERT INTO singers_music VALUES (15, 15, "Dance/Electronic");
+INSERT INTO singers_music VALUES (16, 16, "Classic Rock");
+
+INSERT INTO songs VALUES 
+(1, 8, "Spoil My Night", "beerbongs & bentleys");
+INSERT INTO songs VALUES 
+(2, 10, "I Will Always Love You", "The Bodyguard");
+INSERT INTO songs VALUES
+(3, 3, "Happier Than Ever", "Happier Than Ever");
+INSERT INTO songs VALUES
+(4, 7, "Landslide", "Fleetwood Mac");
+INSERT INTO songs VALUES
+(5, 1, "To Be So Lonely", "Fine Line");
+INSERT INTO songs VALUES
+(6, 11, "I Told You So", "Carnival Ride");
+INSERT INTO songs VALUES 
+(7, 12, "ghostin", "thank u, next");
+INSERT INTO songs VALUES
+(8, 6, "Rocket Man", "Honky Chateau");
+INSERT INTO songs VALUES
+(9, 2, "Consider Me", "Building Balance");
+INSERT INTO songs VALUES
+(10, 5, "Changes", "Honky Dory");
+INSERT INTO songs VALUES 
+(11, 4, "One Love", "The Birth of a Legend");
+INSERT INTO songs VALUES 
+(12, 9, "All I Ask", "25");
+INSERT INTO songs VALUES
+(13, 12, "imagine", "thank u, next");
+INSERT INTO songs VALUES
+(14, 6, "Candle In The Wind", "Goodbye Yellow Brick Road");
+INSERT INTO songs VALUES
+(15, 7, "Dreams", "Rumours");
+INSERT INTO songs VALUES
+(16, 3, "listen before i go", "WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?");
+INSERT INTO songs VALUES
+(17, 2, "American Privilege", "Radius");
+INSERT INTO songs VALUES
+(18, 1, "Sign of the Times", "Harry Styles");
+INSERT INTO songs VALUES
+(19, 10, "Saving All My Love For You", "Whitney Houston");
+INSERT INTO songs VALUES
+(20, 8, "I Like You", "Twelve Carat Toothache");
+INSERT INTO songs VALUES
+(21, 1, "Fine Line", "Fine Line");
+INSERT INTO songs VALUES
+(22, 9, "Make You Feel My Love", "19");
+INSERT INTO songs VALUES
+(23, 4, "Waiting in Vain", "Legend");
+INSERT INTO songs VALUES
+(24, 5, "Let's Dance", "Let's Dance");
+INSERT INTO songs VALUES
+(25, 13, "Smokin Out The Window", "An Evening With Silk Sonic");
+INSERT INTO songs VALUES
+(26, 14, "Hate That I Love You", "Good Girl Gone Bad");
+INSERT INTO songs VALUES
+(27, 15, "Karma", "Midnights");
+INSERT INTO songs VALUES
+(28, 16, "Mary Jane's Last Dance", "Greatest Hits");
+
+SELECT singers.id, singers.fullname, songs.title, songs.artist_id FROM singers
+LEFT OUTER JOIN songs
+ON singers.id = songs.artist_id;
+
+SELECT singers.fullname, singers_music.genre,        songs.album
+    FROM singers
+    LEFT OUTER JOIN singers_music
+    ON singers.id = singers_music.singer_id
+    LEFT OUTER JOIN songs
+    ON singers.id = songs.artist_id
+GROUP BY singers.fullname
+ORDER BY singers_music.singer_id;
+
+SELECT singers.fullname, singers.home_country FROM singers
+    ORDER BY home_country;
+    
+SELECT COUNT (*) FROM singers
+    WHERE home_country = "UK" AND gender = "Male";
+    
+SELECT * FROM singers WHERE age < 60 AND home_country = "USA";
