@@ -1,0 +1,210 @@
+# For this project, I downloaded a database the represents a digital media store called Chinook.
+# Below are the analytics on the data I performed using SQL.
+
+1) Show Customers (their full names, customer ID, and country) who are not in the US. (Hint: != or <> can be used to say "is not equal to").
+
+SELECT CustomerId, FirstName, LastName, Country FROM customers
+    WHERE Country <> 'USA';
+
+2)Show only the Customers from Brazil.
+
+SELECT * FROM customers
+    WHERE Country = 'Brazil';
+
+3)Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+
+SELECT c.FirstName, c.LastName, i.InvoiceId, i.InvoiceDate, i.BillingCountry 
+    FROM customers c
+    LEFT JOIN invoices i
+    ON c.CustomerId = i.CustomerId
+    WHERE i.BillingCountry = 'Brazil';
+
+4) Show the Employees who are Sales Agents.
+
+SELECT FirstName, LastName FROM employees
+    WHERE Title = 'Sales Support Agent';
+
+5) Find a unique/distinct list of billing countries from the Invoice table.
+
+SELECT DISTINCT BillingCountry FROM invoices;
+
+6) Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+
+SELECT e.FirstName, e.LastName, i.InvoiceId
+    FROM employees e
+    JOIN customers c
+    ON e.EmployeeId = c.SupportRepId
+    JOIN invoices i
+    ON i.CustomerId = c.CustomerId;
+
+7) Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+
+SELECT c.FirstName, c.LastName, c.Country, i.Total, e.FirstName, e.LastName 
+    FROM customers c
+    JOIN invoices i
+    ON c.CustomerId = i.CustomerId
+    JOIN employees e
+    ON c.SupportRepId = e.EmployeeId
+    WHERE e.Title = 'Sales Support Agent';
+
+8)How many Invoices were there in 2009?
+
+SELECT COUNT(*) FROM Invoices
+    WHERE InvoiceDate LIKE '2009%'
+
+9) What are the total sales for 2009?
+
+SELECT SUM(Total) AS Total_Sales_2009 FROM Invoices
+    WHERE InvoiceDate LIKE '2009%';
+
+10) Write a query that includes the purchased track name with each invoice line ID.
+
+SELECT t.Name, ii.InvoiceLineId 
+    FROM tracks t
+    JOIN invoice_items ii
+    ON t.TrackId = ii.TrackId;
+
+11)Write a query that includes the purchased track name AND artist name with each invoice line ID.
+
+SELECT ar.Name AS Artist, t.Name AS Track, ii.InvoiceLineId
+    FROM invoice_items ii
+    LEFT JOIN tracks t
+    ON ii.TrackId = t.TrackId
+    INNER JOIN albums a
+    ON a.AlbumId = t.AlbumId
+    LEFT JOIN artists ar
+    ON ar.ArtistId = a.ArtistId;
+
+12) Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+
+SELECT t.Name AS Track, m.Name AS MediaType, a.Title AS AlbumTitle, g.Name AS Genre
+    FROM Tracks t
+    LEFT JOIN media_types m
+    ON t.MediaTypeId = m.MediaTypeId
+    INNER JOIN albums a
+    ON t.AlbumID = a.AlbumID
+    LEFT JOIN genres g
+    ON t.GenreId = g.GenreId;
+
+13) Show the total sales made by each sales agent.
+
+ SELECT ROUND(SUM(i.Total), 2) AS 'Total Sales', e.FirstName, e.LastName 
+     FROM invoices i
+     JOIN customers c
+     ON i.CustomerId = c.CustomerID
+     JOIN employees e
+     ON e.EmployeeId = c.SupportRepId
+     GROUP BY e.FirstName;
+
+14) Which sales agent made the most dollars in sales in 2009?
+
+SELECT ROUND(SUM(i.Total), 2) AS 'Total Sales', e.FirstName, e.LastName 
+     FROM invoices i
+     JOIN customers c
+     ON i.CustomerId = c.CustomerID
+     JOIN employees e
+     ON e.EmployeeId = c.SupportRepId
+     WHERE i.InvoiceDate LIKE '2009%'
+     GROUP BY e.FirstName
+     ORDER BY 'Total Sales' DESC LIMIT 1;
+     
+15) How many employees are there in the company?
+
+SELECT COUNT(EmployeeId) AS 'Total Company Employees' FROM employees
+
+16) Who are the employees that report to a specific employee?
+
+SELECT e.FirstName, e.LastName 
+    FROM employees e
+    JOIN employees em
+    ON e.ReportsTo = em.EmployeeId
+    WHERE em.EmployeeID BETWEEN 1 AND 6;
+
+17) How many customers are there in the database?
+
+SELECT COUNT(CustomerId) AS 'Total Customers' FROM customers;
+
+18) Which employee(s) is responsible for supporting a particular customer?
+
+SELECT e.FirstName AS 'Sales Rep First Name', e.LastName AS 'Sales Rep Last Name',
+c.FirstName AS 'Customer First Name', c.LastName AS 'Customer LastName'
+    FROM employees e
+    JOIN customers c
+    ON e.EmployeeId = c.SupportRepId;
+
+19) How many invoices are in the database?
+
+SELECT COUNT(InvoiceId) AS 'Total Invoices' FROM invoices;
+
+20) How many invoice line items are there in total?
+
+SELECT COUNT(*) AS 'Total Invoice Line Items' FROM invoice_items;
+
+21) What is the unit price and quantity of each invoice line item?
+
+SELECT InvoiceLineId, UnitPrice, Quantity FROM invoice_items;
+
+22) How many artists are there in the database?
+
+SELECT COUNT (*) AS 'Total Artists' FROM artists;
+
+23) How many albums are associated with each artist?
+
+SELECT a.ArtistId, a.Name, COUNT(al.AlbumId) AS 'Album Count'
+    FROM artists a
+    JOIN albums al
+    ON a.ArtistId = al.ArtistId
+    GROUP BY a.ArtistId, a.Name 
+    ORDER BY 'Album Count';
+
+
+24) How many media types are stored in the database?
+
+SELECT COUNT(*) AS 'Total Media Types' FROM media_types;
+
+25) What are the different media types available?
+
+SELECT Name FROM media_types;
+
+26) How many genres are there in the database?
+
+SELECT COUNT(*) AS 'Total Genres' FROM genres;
+
+27) What are the different music genres available?
+
+SELECT Name FROM genres;
+
+28) How many tracks are there in the database?
+
+SELECT COUNT(*) AS 'Total Tracks' FROM tracks;
+
+29) Which album does each track belong to?
+
+SELECT tracks.Name AS TrackName, albums.Title AS AlbumTitle
+    FROM tracks
+    JOIN albums 
+    ON tracks.AlbumId = albums.AlbumId
+    GROUP BY TrackName;
+
+30) How many playlists are there in the database?
+
+SELECT COUNT(*) AS 'Total Playlists' FROM playlists;
+
+31) Which tracks are included in each playlist?
+
+SELECT tracks.Name AS 'Track Name', playlists.Name AS 'Playlist Title', playlists.PlaylistId
+    FROM tracks
+    JOIN playlist_track
+    ON tracks.TrackId = playlist_track.TrackId
+    JOIN playlists
+    ON playlists.PlaylistId = playlist_track.PlaylistId;
+
+32) Which tracks belong to multiple playlists?
+
+SELECT tracks.Name AS TrackName, COUNT(playlists.PlaylistId) AS PlaylistCount
+FROM tracks
+JOIN playlist_track 
+ON tracks.TrackId = playlist_track.TrackId
+JOIN playlists 
+ON playlist_track.PlaylistId = playlists.PlaylistId
+GROUP BY tracks.TrackId, tracks.Name HAVING COUNT(playlists.PlaylistId) > 1;
