@@ -34,3 +34,6 @@ SELECT CITY, STATE FROM STATION;
 SELECT DISTINCT CITY FROM STATION 
     WHERE MOD(ID,2) = 0;
     
+8) Find the difference between the total number of CITY entries in the table and the number of distinct CITY entries in the table.
+
+SELECT COUNT(*) - COUNT(DISTINCT CITY) FROM STATION;
